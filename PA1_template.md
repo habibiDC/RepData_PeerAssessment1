@@ -33,7 +33,7 @@ groupdata<-data %>% group_by(date) %>%summarise(sumstep=sum(steps,na.rm = TRUE))
 hist(groupdata$sumstep,breaks = 8, main = 'Histogram',col = 'blue')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot_1-1.png)<!-- -->
 
 Table of mean and median per day.
 
@@ -373,7 +373,7 @@ stepmeanmedian$date<-as.Date(stepmeanmedian$date)
 ggplot(aes(x=date,y=stepmean),data=stepmeanmedian)+geom_line(size=1)+labs(title='Time Series Plot')+theme(plot.title = element_text(hjust = 0.5))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot_2-1.png)<!-- -->
 
 The table below shows the 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps.
 
@@ -433,17 +433,18 @@ head(newdata)
 ```
 
 Using new dataset, make a histogram of the total number of steps taken each day, and calculate and report the mean and median total number of steps taken per day.
-The values of mean and median differ from part 1 as NAs are imputed.The total daily number of steps increases.
+The values of mean and median differ from part 1 as NAs are imputed.The total daily number of steps increases in the first bin.
 
 
 ```r
 library(ggplot2)
 library(kableExtra)
 library(dplyr)
-ggplot(newdata)+geom_histogram(aes(x=date,weights=steps),stat = 'count')+labs(x='Days in Octorber to November 2012',y='Total Steps per Day',title='Histogram with New Data')+theme(plot.title = element_text(hjust = 0.5))+scale_x_discrete(labels=c(1:31,1:30))
+newgroupdata<-newdata %>% group_by(date) %>%summarise(sumstep=sum(steps,na.rm = TRUE))
+hist(newgroupdata$sumstep,breaks = 8, main = 'Histogram',col = 'red')
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot_3-1.png)<!-- -->
 
 ```r
 newstepmeanmedian<-newdata %>% group_by(date) %>% arrange(date,steps) %>% summarise(stepmean=mean(steps),stepmedian=median(steps))
@@ -787,4 +788,4 @@ newinterval<-newdata %>%group_by(interval,dayofweek) %>% arrange(interval)  %>% 
 xyplot(stepmean~interval|dayofweek,newinterval,type='l',layout=c(1,2),scales = list(x=list(at=NULL)))
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+![](PA1_template_files/figure-html/plot_4-1.png)<!-- -->
