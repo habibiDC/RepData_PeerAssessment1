@@ -1,5 +1,5 @@
 
-##Loading and preprocessing the data
+#Loading and preprocessing the data
 
 ```r
 download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip')
