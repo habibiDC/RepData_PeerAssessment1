@@ -1,5 +1,5 @@
 
-#Loading and preprocessing the data
+## Loading and preprocessing the data
 
 ```r
 download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip')
@@ -15,7 +15,7 @@ file.remove('~/R/data/activity.zip')
 data<-read.csv('~/R/data/activity.csv',header = TRUE)
 ```
 
-##Calculate mean total number of steps taken per day
+## Calculate mean total number of steps taken per day
 
 Histogram of mean total number of steps per day:
 
@@ -354,7 +354,7 @@ knitr::kable(stepmeanmedian) %>% kable_styling(bootstrap_options = 'condensed', 
 </tbody>
 </table>
 
-##Average daily activity pattern.
+## Average daily activity pattern.
 
 Time Series Plot
 
@@ -392,7 +392,7 @@ knitr::kable(maxinterval[maxinterval$stepmean==max(maxinterval$stepmean),])%>% k
 </tbody>
 </table>
 
-##Imputing missing values.
+## Imputing missing values.
 
 2304 number of rows with NA
 
@@ -759,7 +759,7 @@ knitr::kable(newstepmeanmedian) %>% kable_styling(full_width = F)
   </tr>
 </tbody>
 </table>
-##Explore differences in activity patterns between weekdays and weekends.
+## Explore differences in activity patterns between weekdays and weekends.
 
 Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
