@@ -1,8 +1,7 @@
 ---
 title: "PA1_template"
-output: 
-  html_document: 
-    keep_md: yes
+output: html_document
+keep_md: yes
 ---
 
 
