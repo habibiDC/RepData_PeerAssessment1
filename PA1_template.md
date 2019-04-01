@@ -1,9 +1,16 @@
-## Reproducible Data Assignment
+---
+title: "PA1_template"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+
 
 ## Loading and preprocessing the data.
 
 ```r
-download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip',colClasses = c('numeric','factor','numeric'))
+download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip')
 unzip('~/R/data/activity.zip',exdir = '~/R/data/' )
 file.remove('~/R/data/activity.zip')
 ```
@@ -13,7 +20,7 @@ file.remove('~/R/data/activity.zip')
 ```
 
 ```r
-data<-read.csv('~/R/data/activity.csv',header = TRUE)
+data<-read.csv('~/R/data/activity.csv',header = TRUE,colClasses = c('numeric','factor','numeric'))
 ```
 
 ## Calculate mean total number of steps taken per day
@@ -362,8 +369,8 @@ Time Series Plot
 
 ```r
 library(ggplot2)
-stepmeanmedian$date<-as.Date(stepmeanmedian$date)
-ggplot(aes(x=date,y=stepmean),data=stepmeanmedian)+geom_line(size=1)+labs(title='Time Series Plot')+theme(plot.title = element_text(hjust = 0.5))
+stepsPerInterval <- aggregate(steps ~ interval, data, mean, na.rm = TRUE)
+ggplot(stepsPerInterval,aes(interval,steps))+geom_line()+labs(title='Time Series Plot')
 ```
 
 ![](PA1_template_files/figure-html/plot_2-1.png)<!-- -->
@@ -759,7 +766,7 @@ knitr::kable(newstepmeanmedian) %>% kable_styling(full_width = F)
   </tr>
 </tbody>
 </table>
-## Explore differences in activity patterns between weekdays and weekends.
+##Explore differences in activity patterns between weekdays and weekends.
 
 Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
