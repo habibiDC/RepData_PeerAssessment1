@@ -23,14 +23,14 @@ file.remove('~/R/data/activity.zip')
 data<-read.csv('~/R/data/activity.csv',header = TRUE)
 ```
 
-##Calculate mean total number of steps taken per day?
+##Calculate mean total number of steps taken per day
 
 Histogram of mean total number of steps per day:
 
 
 ```r
-library(ggplot2)
-ggplot(data)+geom_histogram(aes(x=date,weights=steps),stat = 'count')+labs(x='Days in Octorber to November 2012',y='Total Steps per Day',title='Histogram of the total number of steps taken each day')+theme(plot.title = element_text(hjust = 0.5))+scale_x_discrete(labels=c(1:31,1:30))
+groupdata<-data %>% group_by(date) %>%summarise(sumstep=sum(steps,na.rm = TRUE))
+hist(groupdata$sumstep,breaks = 8, main = 'Histogram',col = 'blue')
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-2-1.png)<!-- -->
@@ -781,11 +781,10 @@ Panel plot containing a time series plot of the 5-minute interval (x-axis) and t
 
 
 ```r
-library(lattice)
 library(dplyr)
-newinterval<-newdata %>%group_by(dayofweek,interval) %>% arrange(interval)  %>% summarise(stepmean=mean(steps))
-g<-xyplot(stepmean~interval|dayofweek,newinterval,type='l',layout=c(1,2), scales = list(x=list(at=NULL)))
-print(g)
+library(lattice)
+newinterval<-newdata %>%group_by(interval,dayofweek) %>% arrange(interval)  %>% summarise(stepmean=mean(steps))
+xyplot(stepmean~interval|dayofweek,newinterval,type='l',layout=c(1,2),scales = list(x=list(at=NULL)))
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
