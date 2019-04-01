@@ -9,15 +9,15 @@ output:
 knitr::opts_chunk$set(echo = TRUE,message=FALSE,warning=FALSE)
 ```
 
-##Loading and preprocessing the data.
+## Loading and preprocessing the data.
 ```{r}
-download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip')
+download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip',colClasses = c('numeric','factor','numeric'))
 unzip('~/R/data/activity.zip',exdir = '~/R/data/' )
 file.remove('~/R/data/activity.zip')
 data<-read.csv('~/R/data/activity.csv',header = TRUE)
 ```
 
-##Calculate mean total number of steps taken per day
+## Calculate mean total number of steps taken per day
 
 Histogram of mean total number of steps per day:
 
@@ -35,7 +35,7 @@ stepmeanmedian<-data %>% group_by(date) %>% arrange(date,steps) %>% summarise(st
 knitr::kable(stepmeanmedian) %>% kable_styling(bootstrap_options = 'condensed', full_width = F)
 ```
 
-##Average daily activity pattern.
+## Average daily activity pattern.
 
 Time Series Plot
 
@@ -49,12 +49,11 @@ The table below shows the 5-minute interval, on average across all the days in t
 
 ```{r}
 library(kableExtra)
-data$interval<-as.factor(data$interval)
 maxinterval<-data %>%group_by(interval) %>% arrange(interval)  %>% summarise(stepmean=mean(steps,na.rm = TRUE))
 knitr::kable(maxinterval[maxinterval$stepmean==max(maxinterval$stepmean),])%>% kable_styling(bootstrap_options = 'condensed',full_width = F)
 ```
 
-##Imputing missing values.
+## Imputing missing values.
 
 2304 number of rows with NA
 ```{r}
@@ -95,8 +94,9 @@ Panel plot containing a time series plot of the 5-minute interval (x-axis) and t
 ```{r,plot_4}
 
 library(dplyr)
-library(lattice)
-newinterval<-newdata %>%group_by(interval,dayofweek) %>% arrange(interval)  %>% summarise(stepmean=mean(steps))
-xyplot(stepmean~interval|dayofweek,newinterval,type='l',layout=c(1,2),scales = list(x=list(at=NULL)))
+
+newinterval<-newdata %>%group_by(dayofweek,interval) %>% arrange(interval)  %>% summarise(stepmean=mean(steps))
+g<-ggplot(newinterval,aes(interval,stepmean))
+g+geom_line()+facet_wrap(~dayofweek)
      
 ```

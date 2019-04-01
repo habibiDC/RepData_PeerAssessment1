@@ -1,8 +1,16 @@
+---
+title: "PA1_template"
+output: 
+  html_document: 
+    keep_md: yes
+---
 
-## Loading and preprocessing the data
+
+
+## Loading and preprocessing the data.
 
 ```r
-download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip')
+download.file('https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip',destfile = '~/R/data/activity.zip',colClasses = c('numeric','factor','numeric'))
 unzip('~/R/data/activity.zip',exdir = '~/R/data/' )
 file.remove('~/R/data/activity.zip')
 ```
@@ -372,7 +380,6 @@ The table below shows the 5-minute interval, on average across all the days in t
 
 ```r
 library(kableExtra)
-data$interval<-as.factor(data$interval)
 maxinterval<-data %>%group_by(interval) %>% arrange(interval)  %>% summarise(stepmean=mean(steps,na.rm = TRUE))
 knitr::kable(maxinterval[maxinterval$stepmean==max(maxinterval$stepmean),])%>% kable_styling(bootstrap_options = 'condensed',full_width = F)
 ```
@@ -380,13 +387,13 @@ knitr::kable(maxinterval[maxinterval$stepmean==max(maxinterval$stepmean),])%>% k
 <table class="table table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
-   <th style="text-align:left;"> interval </th>
+   <th style="text-align:right;"> interval </th>
    <th style="text-align:right;"> stepmean </th>
   </tr>
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> 835 </td>
+   <td style="text-align:right;"> 835 </td>
    <td style="text-align:right;"> 206.1698 </td>
   </tr>
 </tbody>
@@ -425,7 +432,7 @@ head(newdata)
 ```
 
 Using new dataset, make a histogram of the total number of steps taken each day, and calculate and report the mean and median total number of steps taken per day.
-The values of mean and median differ from part 1 as NAs are imputed.The total daily number of steps decreases in the first bin.
+The values of mean and median differ from part 1 as NAs are imputed.The total daily number of steps increases in the first bin.
 
 
 ```r
@@ -754,12 +761,12 @@ knitr::kable(newstepmeanmedian) %>% kable_styling(full_width = F)
   </tr>
   <tr>
    <td style="text-align:left;"> 2012-11-30 </td>
-   <td style="text-align:right;"> 24.4687500 </td>
-   <td style="text-align:right;"> 3.947426 </td>
+   <td style="text-align:right;"> 25.6836871 </td>
+   <td style="text-align:right;"> 4.400469 </td>
   </tr>
 </tbody>
 </table>
-## Explore differences in activity patterns between weekdays and weekends.
+##Explore differences in activity patterns between weekdays and weekends.
 
 Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
@@ -775,9 +782,10 @@ Panel plot containing a time series plot of the 5-minute interval (x-axis) and t
 
 ```r
 library(dplyr)
-library(lattice)
-newinterval<-newdata %>%group_by(interval,dayofweek) %>% arrange(interval)  %>% summarise(stepmean=mean(steps))
-xyplot(stepmean~interval|dayofweek,newinterval,type='l',layout=c(1,2),scales = list(x=list(at=NULL)))
+
+newinterval<-newdata %>%group_by(dayofweek,interval) %>% arrange(interval)  %>% summarise(stepmean=mean(steps))
+g<-ggplot(newinterval,aes(interval,stepmean))
+g+geom_line()+facet_wrap(~dayofweek)
 ```
 
 ![](PA1_template_files/figure-html/plot_4-1.png)<!-- -->
