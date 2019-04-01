@@ -425,7 +425,7 @@ head(newdata)
 ```
 
 Using new dataset, make a histogram of the total number of steps taken each day, and calculate and report the mean and median total number of steps taken per day.
-The values of mean and median differ from part 1 as NAs are imputed.The total daily number of steps increases in the first bin.
+The values of mean and median differ from part 1 as NAs are imputed.The total daily number of steps decreases in the first bin.
 
 
 ```r
