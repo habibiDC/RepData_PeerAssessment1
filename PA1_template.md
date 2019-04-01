@@ -759,7 +759,7 @@ knitr::kable(newstepmeanmedian) %>% kable_styling(full_width = F)
   </tr>
 </tbody>
 </table>
-##Explore differences in activity patterns between weekdays and weekends.
+## Explore differences in activity patterns between weekdays and weekends.
 
 Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
