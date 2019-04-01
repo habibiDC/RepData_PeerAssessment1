@@ -1,11 +1,4 @@
----
-title: "PA1_template"
-output: 
-  html_document: 
-    keep_md: yes
----
-
-
+## Reproducible Data Assignment
 
 ## Loading and preprocessing the data.
 
